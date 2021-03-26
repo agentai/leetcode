@@ -5,14 +5,27 @@
 
 """
 文件说明：
+5. 最长回文子串
+输入：s = "babad"
+输出："bab"
+解释："aba" 同样是符合题意的答案。
+https://leetcode-cn.com/problems/longest-palindromic-substring/
 409. 最长回文串
-    https://leetcode-cn.com/problems/longest-palindrome/
+输入:
+"abccccdd"
+
+输出:
+7
+
+解释:
+我们可以构造的最长的回文串是"dccaccd", 它的长度是 7。
+https://leetcode-cn.com/problems/longest-palindrome/
 """
 from typing import List
 
 
 class Solution:
-    def longestPalindrome1(self, s: str) -> int:
+    def longestPalindrome409(self, s: str) -> int:
         """
         执行用时：
 44 ms
@@ -37,9 +50,8 @@ class Solution:
                 words.add(word)
         return res * 2 + int(len(words) > 0)
 
-    def longestPalindrome4(self, s: str) -> str:
+    def longestPalindrome5(self, s: str) -> str:
         """
-https://leetcode-cn.com/problems/longest-palindromic-substring/submissions/
         执行用时：
 4820 ms
 , 在所有 Python3 提交中击败了
@@ -53,6 +65,7 @@ https://leetcode-cn.com/problems/longest-palindromic-substring/submissions/
         :param s:
         :return:
         """
+        # 思路：dp[i][j]=1 表示s[i:j]是回文串，先初始化dp全为1，然后i从后往前遍历，j从i+1往后遍历
         len_s = len(s)
         if len_s <= 1:
             return s
@@ -69,7 +82,8 @@ https://leetcode-cn.com/problems/longest-palindromic-substring/submissions/
                     dp[i][j] = 0
         return max_s
 
-    def longestPalindrome(self, s: str) -> str:
+    def longestPalindrome5_1(self, s: str) -> str:
+        # 从前往后遍历，比较麻烦
         n = len(s)
         dp = [[False] * n for _ in range(n)]
         ans = ""

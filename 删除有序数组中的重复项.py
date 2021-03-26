@@ -5,7 +5,11 @@
 
 """
 文件说明：
-    删除排序数组中的重复项
+    26. 删除有序数组中的重复项
+输入：nums = [1,1,2]
+输出：2, nums = [1,2]
+解释：函数应该返回新的长度 2 ，并且原数组 nums 的前两个元素被修改为 1, 2 。不需要考虑数组中超出新长度后面的元素。
+    https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
     https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/x2gy9m/
 """
 from typing import List
@@ -13,6 +17,33 @@ from typing import List
 
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
+        """
+        执行用时：
+48 ms
+, 在所有 Python3 提交中击败了
+62.43%
+的用户
+内存消耗：
+15.8 MB
+, 在所有 Python3 提交中击败了
+32.31%
+的用户
+        """
+        # 思路：快慢指针，慢指针只有在遇到不同的元素后才前进
+        len_n = len(nums)
+        if len_n <= 1:
+            return len_n
+        l = 0
+        r = 1
+        while r < len_n:
+            if nums[l] != nums[r]:
+                l += 1
+                nums[l] = nums[r]
+            r += 1
+        return l + 1
+
+
+    def removeDuplicates4(self, nums: List[int]) -> int:
         """
 执行用时：
 32 ms
