@@ -10,7 +10,7 @@
 输出：[1,2,5]
     https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/
 """
-from list import *
+from base import *
 
 
 class Solution:

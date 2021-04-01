@@ -5,9 +5,9 @@
 
 """
 文件说明：
-    树的数据结构
+    基本的一些数据结构
 """
-from typing import List
+from typing import *
 
 
 class TreeNode:
@@ -81,8 +81,47 @@ def build_bfs(nums):
     return tree
 
 
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+    def __str__(self):
+        nums = []
+        head = self
+        while head:
+            nums.append(str(head.val))
+            head = head.next
+        return "->".join(nums)
+
+
+def create_list_node(nums):
+    head = ListNode()
+    cur = head
+    for num in nums:
+        cur.next = ListNode(val=num)
+        cur = cur.next
+    return head.next
+
+
+def create_lists_node(lists):
+    """
+    example:
+    lists = [[1,4,5],[1,3,4],[2,6]]
+    [print(i) for i in create_lists_node(lists)]
+    """
+    res = []
+    for nums in lists:
+        res.append(create_list_node(nums))
+    return res
+
+
 if __name__ == '__main__':
-    nums = [3, 2, 3, None, 3, None, 1]
-    tree = build_bfs(nums)
-    tree.print_dfs()
+    # nums = [3, 2, 3, None, 3, None, 1]
+    # tree = build_bfs(nums)
+    # tree.print_dfs()
+    #
+    # print(create_list_node([1, 5, 7, 2]))
+    # lists = [[1, 4, 5], [1, 3, 4], [2, 6]]
+    # [print(i) for i in create_lists_node(lists)]
     pass

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Author  : chitao
-# @Time    : 2021/3/16
 
 """
 文件说明：
     337. 打家劫舍 III
+
 """
 from typing import List
-from tree import *
+from base import *
 
 
 class Solution:

@@ -11,7 +11,7 @@
     https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
 """
 from typing import List
-from list import *
+from base import *
 
 
 class Solution:

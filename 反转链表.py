@@ -10,7 +10,7 @@
 输出: 5->4->3->2->1->NULL
     https://leetcode-cn.com/problems/reverse-linked-list/
 """
-from list import *
+from base import *
 
 
 class Solution:

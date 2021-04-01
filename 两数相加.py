@@ -12,7 +12,7 @@
     https://leetcode-cn.com/problems/add-two-numbers/
 """
 from typing import List
-from list import *
+from base import *
 
 
 class Solution:
