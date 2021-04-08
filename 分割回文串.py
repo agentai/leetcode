@@ -6,6 +6,20 @@
 """
 文件说明：
     131. 分割回文串
+
+给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
+
+回文串 是正着读和反着读都一样的字符串。
+
+示例 1：
+
+输入：s = "aab"
+输出：[["a","a","b"],["aa","b"]]
+示例 2：
+
+输入：s = "a"
+输出：[["a"]]
+
     https://leetcode-cn.com/problems/palindrome-partitioning/
 """
 from typing import List
@@ -29,6 +43,7 @@ class Solution:
         :return:
         """
         len_s = len(s)
+        # dp[i][j]表示i-j是回文串，先记录下所有回文串的编号
         dp = [[1] * len_s for x in range(len_s)]
         i = len_s - 1
         while i >= 0:
@@ -44,19 +59,25 @@ class Solution:
         #     for j in range(i + 1, len_s):
         #         dp[i][j] = int((s[i] == s[j]) and dp[i + 1][j - 1])
 
-
+        # 最后递归去提取回文串，逐个起点的去找
         ret = list()
+        # 临时记录当前所有回文串的组合
         ans = list()
 
         def dfs(i: int):
+            # 到末尾后
             if i == len_s:
                 ret.append(ans[:])
                 return
 
             for j in range(i, len_s):
+                # 如果是回文串
                 if dp[i][j]:
+                    # 加上当前的子串
                     ans.append(s[i:j + 1])
+                    # 从当前串末尾往后找
                     dfs(j + 1)
+                    # 去掉当前加入的子串
                     ans.pop()
         dfs(0)
         return ret

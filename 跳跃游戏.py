@@ -34,6 +34,7 @@ class Solution:
         len_n, right_most = len(nums), 0
         for i in range(len_n):
             if i <= right_most:
+                # 如果当前位置已经可触达，取当前位置+当前位置值 和 最大可触达位置比较。
                 right_most = max(nums[i] + i, right_most)
                 if right_most >= len_n - 1:
                     return True

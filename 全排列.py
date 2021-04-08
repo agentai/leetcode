@@ -24,7 +24,7 @@ from typing import List
 
 
 class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
+    def permute1(self, nums: List[int]) -> List[List[int]]:
         """
         执行用时：
 48 ms
@@ -52,11 +52,40 @@ class Solution:
                 item.append(tmp)
                 # 递归求解
                 sub_problem(item, remain)
-                # item去掉最好一个数
+                # item去掉最后一个数
                 item.pop(-1)
                 # remain加回来tmp
                 remain.insert(i, tmp)
         sub_problem([], nums)
+        return res
+
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        """
+        执行用时：
+40 ms
+, 在所有 Python3 提交中击败了
+77.42%
+的用户
+内存消耗：
+15 MB
+, 在所有 Python3 提交中击败了
+39.36%
+的用户
+        """
+        res = []
+
+        def dfs(stack):
+            if len(nums) == 0:
+                res.append(stack.copy())
+                return
+            for i in range(len(nums)):
+                tmp = nums.pop(i)
+                stack.append(tmp)
+                dfs(stack)
+                nums.insert(i, tmp)
+                stack.pop(-1)
+
+        dfs([])
         return res
 
 
@@ -64,5 +93,6 @@ if __name__ == '__main__':
     k = [1,2,3]
     solution = Solution()
     print(solution.permute(k))
+    print(solution.permute1(k))
 
     pass
