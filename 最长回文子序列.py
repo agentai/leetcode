@@ -25,7 +25,7 @@ from typing import List
 
 
 class Solution:
-    def longestPalindromeSubseq(self, s: str) -> int:
+    def longestPalindromeSubseq4(self, s: str) -> int:
         """
         执行用时：
 1488 ms
@@ -88,11 +88,34 @@ class Solution:
             i -= 1
         return dp[0][len_s-1]
 
-        pass
+    def longestPalindromeSubseq(self, s: str) -> int:
+        """执行用时：
+1372 ms
+, 在所有 Python3 提交中击败了
+67.77%
+的用户
+内存消耗：
+30.9 MB
+, 在所有 Python3 提交中击败了
+81.25%
+的用户"""
+        # dp[i][j] 表示s[i:j]之间的最长子串长度
+        len_s = len(s)
+        dp = [[0] * len_s for i in range(len_s)]
+        for i in range(len_s-1, -1, -1):
+            for j in range(i, len_s):
+                if i == j:
+                    dp[i][j] = 1
+                elif s[i] == s[j]:
+                    dp[i][j] = dp[i+1][j-1] + 2
+                else:
+                    dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+        return dp[0][len_s-1]
 
 
 if __name__ == '__main__':
     nums = "bbbab"
     solution = Solution()
     print(solution.longestPalindromeSubseq(nums))
+    print(solution.longestPalindromeSubseq4(nums))
     pass

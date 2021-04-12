@@ -12,6 +12,24 @@
 
 https://leetcode-cn.com/problems/jump-game/
 
+
+45. 跳跃游戏 II
+
+给定一个非负整数数组，你最初位于数组的第一个位置。
+
+数组中的每个元素代表你在该位置可以跳跃的最大长度。
+
+你的目标是使用最少的跳跃次数到达数组的最后一个位置。
+
+示例:
+
+输入: [2,3,1,1,4]
+输出: 2
+解释: 跳到最后一个位置的最小跳跃数是 2。
+    从下标为 0 跳到下标为 1 的位置，跳1步，然后跳3步到达数组的最后一个位置。
+
+https://leetcode-cn.com/problems/jump-game-ii
+
 """
 from typing import List
 
@@ -57,11 +75,34 @@ class Solution:
                     j -= 1
         return dp[len_n - 1]
 
+    def jump(self, nums: List[int]) -> int:
+        """
+        执行用时：
+48 ms
+, 在所有 Python3 提交中击败了
+57.81%
+的用户
+内存消耗：
+14.8 MB
+, 在所有 Python3 提交中击败了
+82.69%
+的用户
+        """
+        # dp[i]表示到达当前位置需要的最小次数
+        len_n = len(nums)
+        dp = [len_n + 10] * len_n
+        dp[0] = 0
+        for i in range(len_n):
+            for j in range(i, min(len_n, i + nums[i] + 1)):
+                dp[j] = min(dp[j], dp[i] + 1)
+        return dp[len_n - 1]
+
 
 if __name__ == '__main__':
     k = [2,3,1,1,4]
     k = [3,2,1,0,4]
     solution = Solution()
     print(solution.canJump(k))
+    print(solution.jump(k))
 
     pass

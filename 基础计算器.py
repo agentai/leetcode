@@ -194,11 +194,94 @@ https://leetcode-cn.com/problems/basic-calculator/
                 ret += num * sign
         return ret
 
+    def calculate1(self, s: str) -> int:
+        # 思路，用一个队列存计算队列，如果遇到乘除，先算，遇到括号，递归算，最后算加减
+        len_s = len(s)
+
+        def process_chengchu(stack):
+            while len(stack) > 2 and stack[-2] in "*/":
+                if stack:
+                    if stack[-2] == "*":
+                        stack[-3] *= stack[-1]
+                        stack.pop()
+                        stack.pop()
+                    elif stack[-2] == "/":
+                        stack[-3] /= stack[-1]
+                        stack.pop()
+                        stack.pop()
+                    else:
+                        break
+                else:
+                    break
+
+        def process_jiajian(stack):
+            while len(stack) > 2 and stack[1] in "+-":
+                # 处理加减的时候，需要正序
+                if stack:
+                    if stack[1] == "+":
+                        stack[2] += stack[0]
+                        stack.pop(0)
+                        stack.pop(0)
+                    elif stack[1] == "-":
+                        # 处理减的时候，需要左减右
+                        stack[0] -= stack[2]
+                        stack[2] = stack[0]
+                        stack.pop(0)
+                        stack.pop(0)
+                    else:
+                        break
+                else:
+                    break
+
+        def sub_job(i, has_kuohao):
+            stack = []
+            while i < len_s:
+                while i < len_s and s[i] == " ":
+                    i += 1
+                j = i
+                while j < len_s and s[j] in "0123456789":
+                    j += 1
+                if j > i:
+                    num = int(s[i:j])
+                    stack.append(num)
+                    process_chengchu(stack)
+                    i = j
+                    continue
+                if i == len_s:
+                    break
+                if s[i] in "+-*/":
+                    if s[i] in "+-" and not stack:
+                        stack.append(0)
+                    if s[i] in "*/" and not stack:
+                        stack.append(1)
+                    stack.append(s[i])
+                    i += 1
+                elif s[i] == "(":
+                    num, index = sub_job(i+1, True)
+                    stack.append(num)
+                    i = index
+                    process_chengchu(stack)
+                elif s[i] == ")":
+                    if not has_kuohao:
+                        raise Exception()
+                    process_jiajian(stack)
+                    i += 1
+                    break
+            if stack:
+                process_jiajian(stack)
+                return stack[-1], i
+            else:
+                return 0, i
+        num, i = sub_job(0, False)
+        print(f"{s}={num}")
+        return num
+
 
 # Solution().process_expression(" 11+2*(14*20/2)")
 # Solution().process_expression("11+ 2* (14*20/3)")
 # Solution().process_expression("11+2*2*(3*20/2)")
 Solution().calculate("111*10+1-(-15*20/2-10)")
+Solution().calculate1("111*10+1-(-15*20/2-10)")
 # Solution().process_expression("111*10+1(15*20/2-10)")
 # Solution().process_expression("111*10+1-15*20/2-10)")
 # Solution().process_expression("15*20-10")

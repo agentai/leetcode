@@ -29,7 +29,7 @@ from base import *
 
 
 class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
+    def lengthOfLIS1(self, nums: List[int]) -> int:
         """执行用时：
 3440 ms
 , 在所有 Python3 提交中击败了
@@ -66,13 +66,39 @@ class Solution:
         #                 max_index = j
         # return dp[max_index]
 
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        """
+执行用时：
+5240 ms
+, 在所有 Python3 提交中击败了
+5.00%
+的用户
+内存消耗：
+14.8 MB
+, 在所有 Python3 提交中击败了
+97.04%
+的用户
+        """
+        # dp[i] 表示从nums[0:i]之间最长的递增子串
+        # 拿nums[i]依次与0-i之间的数比较，如果nums[i] > nums[j]，则dp[i] = max(dp[i], dp[j]+1)
+        len_n = len(nums)
+        dp = [1] * len_n
+        max_l = 1
+        for i in range(len_n):
+            for j in range(0, i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j]+1)
+                    max_l = max(max_l, dp[i])
+        return max_l
+
 
 if __name__ == '__main__':
     nums = [10,9,2,5,3,7,101,18]
-    nums = [7, 7, 7, 7, 7, 7]
+    # nums = [7, 7, 7, 7, 7, 7]
     k = 3
     # nums = build_bfs(nums)
     # nums = create_list_node(nums)
     solution = Solution()
+    print(solution.lengthOfLIS1(nums))
     print(solution.lengthOfLIS(nums))
     pass

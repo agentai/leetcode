@@ -104,10 +104,46 @@ class Solution:
                     ans = s[i:j + 1]
         return ans
 
+    def longestPalindrome(self, s: str) -> str:
+        """
+        执行用时：
+8204 ms
+, 在所有 Python3 提交中击败了
+23.80%
+的用户
+内存消耗：
+31.1 MB
+, 在所有 Python3 提交中击败了
+5.28%
+的用户
+        """
+        # dp[i][j] = 1 表示s[i:j]是回文串
+        len_s = len(s)
+        if len_s <= 1:
+            return s
+        dp = [[0] * len_s for i in range(len_s)]
+        max_l = 1
+        max_s = s[0]
+        for i in range(len_s - 1, -1, -1):
+            for j in range(i, len_s):
+                if i == j:
+                    dp[i][j] = 1
+                elif s[i] == s[j] and j - i == 1:
+                    dp[i][j] = 2
+                    if j + 1 - i > max_l:
+                        max_s = s[i:j + 1]
+                        max_l = j + 1 - i
+                elif s[i] == s[j] and dp[i + 1][j - 1] >= 1:
+                    dp[i][j] = dp[i + 1][j - 1] + 2
+                    if j + 1 - i > max_l:
+                        max_s = s[i:j + 1]
+                        max_l = j + 1 - i
+        return max_s
+
 
 if __name__ == '__main__':
-    nums = "abccccdd"
-    nums = "cbbd"
+    nums = "abccccddddda"
+    # nums = "babad"
     # nums = "ac"
     solution = Solution()
     print(solution.longestPalindrome(nums))

@@ -29,7 +29,7 @@ import collections
 
 
 class Solution:
-    def minWindow(self, s: str, t: str) -> str:
+    def minWindow1(self, s: str, t: str) -> str:
         """
         执行用时：
 68 ms
@@ -74,13 +74,55 @@ class Solution:
                 l += 1
         return '' if res[1] > len(s) else s[res[0]:res[1] + 1]  # 如果res始终没被更新过，代表无满足条件的结果
 
+    def minWindow(self, s: str, t: str) -> str:
+        """执行用时：
+104 ms
+, 在所有 Python3 提交中击败了
+68.17%
+的用户
+内存消耗：
+15.1 MB
+, 在所有 Python3 提交中击败了
+56.11%
+的用户"""
+        # 思路，滑动窗口，先记录下需要的字符，然后先走右边，一直到满足需求为止，在走左边一直到不满足为止，如此重复
+        len_s = len(s)
+        need = {}
+        need_length = 0
+        for c in t:
+            need[c] = need.get(c, 0) + 1
+            need_length += 1
+        l, r = 0, 0
+        res = [0, len_s+2]
+        while r < len_s:
+            # 如果s[r]是需要的，则need[s[r]]-1，
+            # 如果减完后还是大于等于0，说明还未满足，need_length-1，如果减完后是负数了，说明超额满足了
+            if s[r] in need:
+                need[s[r]] -= 1
+                if need[s[r]] >= 0:
+                    need_length -= 1
+            if need_length == 0:
+                while True:
+                    l += 1
+                    if s[l-1] in need:
+                        need[s[l-1]] += 1
+                        if need[s[l-1]] > 0:
+                            need_length += 1
+                            break
+                if r+2-l < res[1]-res[0]:
+                    res = [l-1, r+1]
+            r += 1
+        if res[1] > len_s:
+            return ""
+        return s[res[0]:res[1]]
 
 
 if __name__ == '__main__':
     nums = "ADOBECODEBANC"
     b = "ABC"
-    nums = "a"
-    b = "a"
+    # nums = "a"
+    # b = "a"
     solution = Solution()
+    print(solution.minWindow1(nums, b))
     print(solution.minWindow(nums, b))
     pass
