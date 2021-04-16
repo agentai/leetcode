@@ -11,6 +11,24 @@
 
 https://leetcode-cn.com/problems/spiral-matrix/
 
+
+59. 螺旋矩阵 II
+
+给你一个正整数n ，生成一个包含 1 到n2所有元素，且元素按顺时针顺序螺旋排列的n x n 正方形矩阵 matrix 。
+
+
+示例 1：
+
+输入：n = 3
+输出：[[1,2,3],[8,9,4],[7,6,5]]
+
+示例 2：
+
+输入：n = 1
+输出：[[1]]
+
+https://leetcode-cn.com/problems/spiral-matrix-ii
+
 """
 from typing import List
 
@@ -66,6 +84,50 @@ class Solution:
             elif r == cycle - 1 and direction == "u":
                 direction = "r"
                 c += 1
+        return res
+
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        """
+        执行用时：
+36 ms
+, 在所有 Python3 提交中击败了
+84.50%
+的用户
+内存消耗：
+15 MB
+, 在所有 Python3 提交中击败了
+46.61%
+的用户
+        """
+        res = [[0] * n for i in range(n)]
+        direction = "r"
+        r, c = 0, 0
+        times = 0  # 表示第几圈
+        cur = 1
+        while cur <= n * n:
+            res[c][r] = cur
+            cur += 1
+            if direction == "r" and r < n - times - 1:
+                r += 1
+            elif direction == "r" and r == n - times - 1:
+                c += 1
+                direction = "d"
+            elif direction == "d" and c < n - times - 1:
+                c += 1
+            elif direction == "d" and c == n - times - 1:
+                direction = "l"
+                r -= 1
+            elif direction == "l" and r > times:
+                r -= 1
+            elif direction == "l" and r == times:
+                direction = "u"
+                c -= 1
+                times += 1
+            elif direction == "u" and c > times:
+                c -= 1
+            elif direction == "u" and c == times:
+                r += 1
+                direction = "r"
         return res
 
 

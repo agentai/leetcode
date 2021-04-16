@@ -71,9 +71,11 @@ class Solution:
 57.40%
 的用户
         """
-        # 每个coin都从0到amount+1进行遍历
+        # dp[i] 表示到达当前价格需要的最少零钱数
+        # 因为要求最少次数，所以初始化用大数
         dp = [amount + 100 for i in range(amount+1)]
         dp[0] = 0
+        # 给每个coin都从0到amount+1进行遍历
         for coin in coins:
             for x in range(coin, amount+1):
                 dp[x] = min(dp[x], dp[x-coin] + 1)
@@ -94,4 +96,5 @@ if __name__ == '__main__':
     solution = Solution()
     print(solution.coinChange(nums, k))
     print(solution.coinChange1(nums, k))
+    print(solution.coinChange2(nums, k))
     pass

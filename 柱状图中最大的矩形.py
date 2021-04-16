@@ -98,6 +98,40 @@ class Solution:
             max_area = max(max_area, (start-stack[-1]) * nums[cur])
         return max_area
 
+    def largest_area1(self, nums: List[int]) -> int:
+        """
+        执行用时：
+304 ms
+, 在所有 Python3 提交中击败了
+52.38%
+的用户
+内存消耗：
+25.1 MB
+, 在所有 Python3 提交中击败了
+57.12%
+的用户
+        """
+        # 单调栈+哨兵
+        # 栈中存储的是索引，且索引对应的值是单调递增的
+        # 两个流程，
+        # 第一步先建立单调栈，第二步处理栈
+        # 建栈时，如果遍历的时候当前位置值大于栈顶位置值，直接入栈
+        # 如果当前值小于等于栈顶位置值，处理栈，提取栈里所有超过当前位置值的索引，并计算最大面积
+        stack = [-1]
+        len_n = len(nums)
+        max_area = 0
+        for i in range(len_n):
+            while len(stack) > 1 and nums[stack[-1]] > nums[i]:
+                k = stack.pop()
+                max_area = max(max_area, nums[k] * (i-stack[-1]-1))
+            stack.append(i)
+        if len(stack) > 1:
+            end = stack.pop()
+            max_area = max(max_area, nums[end] * (end - stack[-1]))
+            while len(stack) > 1:
+                k = stack.pop()
+                max_area = max(max_area, nums[k] * (end - stack[-1]))
+        return max_area
 
 
 if __name__ == '__main__':
@@ -105,7 +139,9 @@ if __name__ == '__main__':
     nums = [2, 1,5,6,2,3]
     # nums = [2,1,2]
     nums = [5, 4, 1, 2]
+    nums = [1]
     solution = Solution()
     print(solution.largestRectangleArea(nums))
     print(solution.largest_area(nums))
+    print(solution.largest_area1(nums))
     pass

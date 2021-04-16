@@ -8,6 +8,7 @@
     基本的一些数据结构
 """
 from typing import *
+from collections import deque
 
 
 class TreeNode:

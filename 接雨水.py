@@ -17,7 +17,7 @@ from typing import List
 
 
 class Solution:
-    def trap(self, height: List[int]) -> int:
+    def trap1(self, height: List[int]) -> int:
         """
         执行用时：
 52 ms
@@ -53,10 +53,45 @@ class Solution:
             res += min(dp[i][0], dp[i][1]) - height[i]
         return res
 
+    def trap(self, height: List[int]) -> int:
+        """
+        执行用时：
+52 ms
+, 在所有 Python3 提交中击败了
+45.70%
+的用户
+内存消耗：
+15 MB
+, 在所有 Python3 提交中击败了
+68.59%
+的用户
+        """
+        # 思路，双指针，l, r分别记录左右的位置，l_max,r_max分别记录左右到当前指针位置最大的高度
+        # 因为算面积的时候，求的是最小高度，因此当height[l] < height[r]时，走左边，并计算高度
+        # 这个是因为如果哪边小，那么决定高度的就是哪边
+        if not height:
+            return 0
+        len_h = len(height)
+        res = 0
+        l, r = 0, len_h-1
+        l_max = height[l]
+        r_max = height[r]
+        while l < r:
+            l_max = max(height[l], l_max)
+            r_max = max(height[r], r_max)
+            if height[l] < height[r]:
+                res += l_max - height[l]
+                l += 1
+            else:
+                res += r_max - height[r]
+                r -= 1
+        return res
+
 
 if __name__ == '__main__':
     k = [0,1,0,2,1,0,1,3,2,1,2,1]
     solution = Solution()
     print(solution.trap(k))
+    print(solution.trap1(k))
 
     pass

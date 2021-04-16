@@ -75,7 +75,7 @@ class Solution:
                     j -= 1
         return dp[len_n - 1]
 
-    def jump(self, nums: List[int]) -> int:
+    def jump1(self, nums: List[int]) -> int:
         """
         执行用时：
 48 ms
@@ -97,12 +97,50 @@ class Solution:
                 dp[j] = min(dp[j], dp[i] + 1)
         return dp[len_n - 1]
 
+    def jump(self, nums: List[int]) -> int:
+        """
+        执行用时：
+44 ms
+, 在所有 Python3 提交中击败了
+68.58%
+的用户
+内存消耗：
+14.7 MB
+, 在所有 Python3 提交中击败了
+94.09%
+的用户
+        """
+        # 用一个变量记录最右边可触达的，用另一个变量记录到当前步下最多能走的位置
+        len_n = len(nums)
+        # right_most 记录最右边可触达的位置
+        # end 记录i到当前end位置，期间能达到的最右边位置
+        right_most, end = 0, 0
+        step = 0
+        for i in range(len_n-1):
+            # 如果当前i可触达
+            if i <= right_most:
+                # 更新最右边位置
+                right_most = max(right_most, i + nums[i])
+                # 如果i已经到达了上一步能触达的最右边，则加一步并更新end
+                if i >= end:
+                    step += 1
+                    end = right_most
+                    # 提速，如果更新end的同时发现已经到底了，直接返回
+                    if right_most >= len_n - 1:
+                        break
+                else:
+                    if right_most >= len_n - 1:
+                        step += 1
+                        break
+        return step
+
 
 if __name__ == '__main__':
     k = [2,3,1,1,4]
-    k = [3,2,1,0,4]
+    # k = [3,2,1,0,4]
+    k = [0]
     solution = Solution()
-    print(solution.canJump(k))
+    # print(solution.canJump(k))
     print(solution.jump(k))
 
     pass

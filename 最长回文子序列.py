@@ -112,10 +112,32 @@ class Solution:
                     dp[i][j] = max(dp[i+1][j], dp[i][j-1])
         return dp[0][len_s-1]
 
+    def longestPalindromeSubseqaa(self, s: str) -> int:
+        # dp[i][j]表示s[i:j]之间最长的回文子串长度
+        # 如果s[i]==s[j] dp[i][j] = dp[i+1][j-1] + 2
+        # 如果不等 dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+        # 如果 i==j ，dp[i][j]=1
+        # 如果 j == i+1 and s[i]== s[j] , dp[i][j] = 2
+        len_s = len(s)
+        dp = [[0] * len_s for i in range(len_s)]
+        for i in range(len_s-1, -1, -1):
+            for j in range(i, len_s):
+                if i == j:
+                    dp[i][j] = 1
+                elif s[i] == s[j]:
+                    if j == i+1:
+                        dp[i][j] = 2
+                    else:
+                        dp[i][j] = dp[i+1][j-1] + 2
+                else:
+                    dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+        return dp[0][-1]
+
 
 if __name__ == '__main__':
     nums = "bbbab"
     solution = Solution()
     print(solution.longestPalindromeSubseq(nums))
     print(solution.longestPalindromeSubseq4(nums))
+    print(solution.longestPalindromeSubseqaa(nums))
     pass

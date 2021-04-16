@@ -88,11 +88,44 @@ class Solution:
         dfs([])
         return res
 
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        """执行用时：
+64 ms
+, 在所有 Python3 提交中击败了
+38.45%
+的用户
+内存消耗：
+15.3 MB
+, 在所有 Python3 提交中击败了
+22.41%
+的用户
+"""
+        res = []
+        nums.sort()
+        def dfs(stack):
+            if len(nums) == 0:
+                if stack not in res:
+                    res.append(stack.copy())
+                return
+            for i in range(len(nums)):
+                # 加速
+                if i > 0 and nums[i] == nums[i-1]:
+                    continue
+                tmp = nums.pop(i)
+                stack.append(tmp)
+                dfs(stack)
+                stack.pop()
+                nums.insert(i, tmp)
+        dfs([])
+        return res
+
 
 if __name__ == '__main__':
     k = [1,2,3]
     solution = Solution()
     print(solution.permute(k))
     print(solution.permute1(k))
+    print(solution.permuteUnique([1,2,3]))
+    print(solution.permuteUnique([1,1,3]))
 
     pass
