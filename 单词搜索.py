@@ -35,38 +35,53 @@ from base import *
 
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
+        """
+        执行用时：
+4144 ms
+, 在所有 Python3 提交中击败了
+12.58%
+的用户
+内存消耗：
+15 MB
+, 在所有 Python3 提交中击败了
+84.93%
+的用户
+        """
         rows = len(board)
         cols = len(board[0])
         len_w = len(word)
 
         def find(r, c, cur):
+            # 用cur来记录当前命中的所有坐标
             if len(cur) == len_w:
                 return
             for a, b in [(r + 1, c), (r, c + 1), (r - 1, c), (r, c - 1)]:
-                if 0 <= a < rows and 0 <= b < cols and (a,b) not in cur and board[a][b] == word[len(cur)-1]:
+                if 0 <= a < rows and 0 <= b < cols and (a,b) not in cur and board[a][b] == word[len(cur)]:
                     cur.append((a, b))
                     find(a, b, cur)
+                    if len(cur) == len_w:
+                        return
                     cur.pop()
 
         for i in range(rows):
             for j in range(cols):
+                # 命中首字母后，递归找
                 if board[i][j] == word[0]:
-                    match = True
-                    tmp = []
-                    k = 1
-                    r, c = i, j
-                    while k < len_w:
-                        for a, b in [(r+1, c), (r, c+1), (r-1, c), (r, c-1)]:
-                            if 0 <= a < rows and 0 <= b < cols:
+                    tmp = [(i,j)] # 存所有坐标
+                    find(i, j, tmp)
+                    if len(tmp) == len_w:
+                        return True
 
-        pass
+        return False
 
 
 if __name__ == '__main__':
     nums = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]
     k = "SEE"
+    # nums = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]
+    # k = "ABCCED"
     # nums = build_bfs(nums)
     # nums = create_list_node(nums)
     solution = Solution()
-    print(solution.problem(nums, k))
+    print(solution.exist(nums, k))
     pass
